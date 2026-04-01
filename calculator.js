@@ -213,3 +213,47 @@ After completing all TODOs, test your calculator:
 
 */
 
+import { add, subtract, multiply, divide } from "./utils/operations.js";
+import { parseNumbers, isValidOperation } from "./utils/parser.js";
+
+// Get command-line arguments
+const operation = process.argv[2];
+const args = process.argv.slice(3);
+
+// Validate operation
+if (!isValidOperation(operation)) {
+    console.log("Invalid operation. Use: add, subtract, multiply, or divide.");
+    process.exit(1);
+}
+
+// Parse numbers
+const numbers = parseNumbers(args);
+
+// Make sure exactly 2 numbers are provided
+if (numbers.length !== 2 || numbers.some(num => Number.isNaN(num))) {
+    console.log("Please provide exactly two valid numbers.");
+    process.exit(1);
+}
+
+const [num1, num2] = numbers;
+
+let result;
+
+switch (operation) {
+    case "add":
+        result = add(num1, num2);
+        break;
+    case "subtract":
+        result = subtract(num1, num2);
+        break;
+    case "multiply":
+        result = multiply(num1, num2);
+        break;
+    case "divide":
+        result = divide(num1, num2);
+        break;
+    default:
+        result = "Unknown operation.";
+}
+
+console.log(`Result: ${result}`);
